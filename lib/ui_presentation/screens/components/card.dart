@@ -1,12 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/constants/boxShadow.dart';
 import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/model/product.dart';
 import 'package:flutter_malina/ui_presentation/screens/components/text.dart';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+class CustomCard extends StatefulWidget {
+  final BasketCategory category;
+  final ProductsModel productsModel;
+  const CustomCard({
+    super.key,
+    required this.productsModel,
+    required this.category,
+  });
 
+  @override
+  State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  int widgetOfProduct = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,18 +37,33 @@ class CustomCard extends StatelessWidget {
         children: [
           _buildCompanyName(),
           SizedBox(height: 6.5),
-          SizedBox(height: 6),
-          Divider(
-            color: Color(0xFFEDEBEB),
-            height: 0,
-          ),
-          SizedBox(height: 12),
-          Row(
-            children: [
-              _buildPicture(),
-              SizedBox(width: 9),
-              _buildNamePriceDescrip(),
-            ],
+          SizedBox(
+            height: (126 * widget.productsModel.results.length).toDouble(),
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: widget.productsModel.results.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Divider(
+                      color: Color(0xFFEDEBEB),
+                      height: 0,
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      children: [
+                        _buildPicture(
+                            imagePath:
+                                widget.productsModel.results[index].imagePath),
+                        SizedBox(width: 9),
+                        _buildNamePriceDescripCount(
+                            prod: widget.productsModel.results[index]),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
           SizedBox(height: 16),
           _buildDobavki(),
@@ -53,38 +82,25 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: MColor.malina,
       ),
-      child: CustomText(textColor: MColor.white),
-
-      /* Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Заказать',
-            style: MTextStyle.sf_pro_display1(
-              MColor.white,
-            ),
-          ),
-          Text(
-            '250',
-            style: MTextStyle.sf_pro_display1(
-              MColor.white,
-            ),
-          ),
-        ],
-      ) */
+      child:
+          CustomText(text: 'Заказать', price: '111', textColor: MColor.white),
     );
   }
 
-  Widget _buildNamePriceDescrip() {
+  Widget _buildNamePriceDescripCount({required Results prod}) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(textColor: MColor.black1),
+          CustomText(
+            text: prod.name,
+            price: prod.price.toString(),
+            textColor: MColor.black1,
+          ),
           SizedBox(height: 7),
           Text(
-            Product.meal[0].description,
+            prod.description,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -98,35 +114,27 @@ class CustomCard extends StatelessWidget {
           SizedBox(height: 18),
           Row(
             children: [
-              Container(
-                height: 34,
-                width: 34,
-                decoration: BoxDecoration(
-                  color: MColor.soft_grey_blue,
-                  borderRadius: BorderRadius.circular(9.44),
-                ),
-                child: Icon(
-                  Icons.remove,
-                  size: 14,
-                  color: MColor.black1,
-                ),
+              _buildRemoveAndAddIcon(
+                icon: Icons.remove,
+                onTap: () {
+                  setState(() {
+                    if (prod.howMuch > 0) {
+                      prod.howMuch--;
+                    }
+                  });
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14.5),
-                child: Text('1'),
+                child: Text(prod.howMuch.toString()),
               ),
-              Container(
-                height: 34,
-                width: 34,
-                decoration: BoxDecoration(
-                  color: MColor.soft_grey_blue,
-                  borderRadius: BorderRadius.circular(9.44),
-                ),
-                child: Icon(
-                  Icons.add,
-                  size: 14,
-                  color: MColor.black1,
-                ),
+              _buildRemoveAndAddIcon(
+                icon: Icons.add,
+                onTap: () {
+                  setState(() {
+                    prod.howMuch++;
+                  });
+                },
               ),
               Expanded(child: SizedBox()),
               InkWell(
@@ -143,7 +151,29 @@ class CustomCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPicture() {
+  Widget _buildRemoveAndAddIcon({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 34,
+        width: 34,
+        decoration: BoxDecoration(
+          color: MColor.soft_grey_blue,
+          borderRadius: BorderRadius.circular(9.44),
+        ),
+        child: Icon(
+          icon,
+          size: 14,
+          color: MColor.black1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPicture({required String imagePath}) {
     return Container(
       height: 110,
       width: 110,
@@ -152,7 +182,7 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage('assets/basket/pizza.png'),
+          image: AssetImage(imagePath),
         ),
       ),
     );
@@ -162,7 +192,7 @@ class CustomCard extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Bellagio Coffee',
+          widget.productsModel.companyName,
           style: MTextStyle.sf_pro_display1(Color(0xFF5F5F5F)),
         ),
         SizedBox(width: 8),

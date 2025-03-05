@@ -4,9 +4,13 @@ import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/model/product.dart';
 
 class CustomText extends StatelessWidget {
+  final String text;
+  final String price;
   final Color textColor;
   const CustomText({
     super.key,
+    required this.text,
+    required this.price,
     required this.textColor,
   });
 
@@ -16,7 +20,7 @@ class CustomText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          Product.meal[0].name,
+          text,
           style: MTextStyle.sf_pro_display3(textColor),
         ),
         RichText(
@@ -24,7 +28,7 @@ class CustomText extends StatelessWidget {
             style: MTextStyle.sf_pro_display1(textColor),
             children: [
               TextSpan(
-                text: '${Product.meal[0].price}',
+                text: price,
               ),
               WidgetSpan(child: SizedBox(width: 4.5)),
               TextSpan(

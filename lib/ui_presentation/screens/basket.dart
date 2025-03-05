@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/ui_presentation/screens/components/card.dart';
 
@@ -9,21 +11,39 @@ class BasketScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                _buildButton(text: 'Доставка', hasBorder: false),
-                SizedBox(width: 10),
-                _buildButton(text: 'В заведении', hasBorder: true),
-              ],
-            ),
-            CustomCard(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  _buildButton(text: 'Доставка', hasBorder: false),
+                  const SizedBox(width: 10),
+                  _buildButton(text: 'В заведении', hasBorder: true),
+                ],
+              ),
+              _buildBloc(),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBloc() {
+    return BlocBuilder<ProductsBloc, ProductsState>(
+      builder: (context, state) {
+        return switch (state) {
+          ProductsInitial() => const CircularProgressIndicator(),
+          ProductsInitialError() => Center(child: Text(state.message)),
+          ProductsEmpty() => Center(child: Text(state.emptyListText)),
+          ProductsLoaded() => CustomCard(
+              category: BasketCategory.meal,
+              productsModel: state.productsMeal,
+            ),
+        };
+      },
     );
   }
 

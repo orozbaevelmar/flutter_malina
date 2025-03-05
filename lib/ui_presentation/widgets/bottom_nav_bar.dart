@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_malina/bloc/navigation/bloc.dart';
+import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/ui_presentation/screens/basket.dart';
 import 'package:flutter_malina/ui_presentation/screens/favorite.dart';
 import 'package:flutter_malina/ui_presentation/screens/lenta.dart';
@@ -19,6 +20,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
+    context.read<ProductsBloc>().add(const ProductsLoadEvent());
     var navBloc = context.watch<NavBloc>();
     return Scaffold(
       // extendBody: true,

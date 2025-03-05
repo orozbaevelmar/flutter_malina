@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_malina/bloc/navigation/bloc.dart';
+import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/ui_presentation/screens/splash.dart';
 
 //textstyle sf pro display
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (c) => NavBloc()),
+        BlocProvider(create: (c) => ProductsBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
