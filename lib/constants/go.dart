@@ -10,6 +10,10 @@ class Go {
     );
   }
 
+  static back(context) {
+    Navigator.pop(context);
+  }
+
   static replace(context, destination, {bool lazy = false}) {
     if (lazy) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

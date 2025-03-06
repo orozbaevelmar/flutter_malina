@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_malina/constants/colors.dart';
+import 'package:flutter_malina/constants/go.dart';
 import 'package:flutter_malina/constants/text_style_constant.dart';
+import 'package:flutter_malina/ui_presentation/screens/qr_code.dart';
 import 'package:flutter_malina/ui_presentation/widgets/category.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -36,7 +38,7 @@ class MenuScreen extends StatelessWidget {
             children: [
               _buildTextField(),
               SizedBox(height: 14),
-              _buildQrCode(),
+              _buildQrCode(context),
               SizedBox(height: 20),
               CustomCategory(
                 text: 'Еда',
@@ -98,37 +100,40 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQrCode() {
-    return Container(
-      height: 90,
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      //width: double.infinity,
-      decoration: BoxDecoration(
-        color: MColor.malina,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Image(
-            width: 36,
-            height: 68,
-            image: AssetImage(
-              'assets/menu/qrCode.png',
+  Widget _buildQrCode(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Go.to(context, QRScannerScreen()),
+      child: Container(
+        height: 90,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        //width: double.infinity,
+        decoration: BoxDecoration(
+          color: MColor.malina,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image(
+              width: 36,
+              height: 68,
+              image: AssetImage(
+                'assets/menu/qrCode.png',
+              ),
             ),
-          ),
-          SizedBox(width: 17),
-          Flexible(
-            child: Text(
-              'Сканируй QR-код и заказывай прямо в заведении',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: MTextStyle.sf_pro_display1(MColor.white),
+            SizedBox(width: 17),
+            Flexible(
+              child: Text(
+                'Сканируй QR-код и заказывай прямо в заведении',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: MTextStyle.sf_pro_display1(MColor.white),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
