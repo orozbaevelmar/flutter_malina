@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_malina/bloc/navigation/bloc.dart';
 import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
-import 'package:flutter_malina/ui_presentation/screens/basket.dart';
+import 'package:flutter_malina/ui_presentation/screens/basket1.dart';
+import 'package:flutter_malina/ui_presentation/screens/basket2.dart';
 import 'package:flutter_malina/ui_presentation/screens/favorite.dart';
 import 'package:flutter_malina/ui_presentation/screens/lenta.dart';
 import 'package:flutter_malina/ui_presentation/screens/menu.dart';
@@ -44,8 +45,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       return MenuScreen();
     } else if (state is NavProfileState) {
       return const ProfileScreen();
-    } else if (state is NavBasketState) {
-      return BasketScreen();
+    } else if (state is NavBasket1State) {
+      return Basket1Screen();
+    } else if (state is NavBasket2State) {
+      return Basket2Screen();
     } else {
       return MenuScreen();
     }

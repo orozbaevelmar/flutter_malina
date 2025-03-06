@@ -82,15 +82,15 @@ class _QRScannerScreenState extends State<QRScannerScreen>
           Column(
             children: [
               Expanded(
-                  flex: 4,
-                  child: Image.asset(
+                flex: 4,
+                child: /*Image.asset(
                     'assets/menu/image1.png',
                     fit: BoxFit.cover,
-                  )
-                  /*  MobileScanner(
+                  )*/
+                    MobileScanner(
                   controller: controller,
-                ), */
-                  ),
+                ),
+              ),
               Expanded(
                 flex: 1,
                 child: Center(

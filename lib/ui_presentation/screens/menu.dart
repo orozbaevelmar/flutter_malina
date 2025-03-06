@@ -18,6 +18,7 @@ class MenuScreen extends StatelessWidget {
     'Маркет',
     'Цветы',
   ];
+
   final List<Color> listColor = [
     Color(0xFFD4E5FF),
     Color(0xFFFFD3BA),
@@ -31,43 +32,48 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTextField(),
-              SizedBox(height: 14),
-              _buildQrCode(context),
-              SizedBox(height: 20),
-              CustomCategory(
-                text: 'Еда',
-                where: 'Из кафе и ресторанов',
-                backgroundColor: MColor.yellow,
-                picturePath: 'assets/menu/image1.png',
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTextField(),
+                  SizedBox(height: 14),
+                  _buildQrCode(context),
+                  SizedBox(height: 20),
+                  CustomCategory(
+                    text: 'Еда',
+                    where: 'Из кафе и ресторанов',
+                    backgroundColor: MColor.yellow,
+                    picturePath: 'assets/menu/image1.png',
+                  ),
+                  SizedBox(height: 20),
+                  CustomCategory(
+                    text: 'Бьюти',
+                    where: 'Салоны красоты и товары',
+                    backgroundColor: MColor.pink,
+                    picturePath: 'assets/menu/image2.png',
+                  ),
+                  SizedBox(height: 30),
+                  Text(
+                    'Скоро в Malina',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      height: 22 / 17,
+                      color: MColor.black,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                ],
               ),
-              SizedBox(height: 20),
-              CustomCategory(
-                text: 'Бьюти',
-                where: 'Салоны красоты и товары',
-                backgroundColor: MColor.pink,
-                picturePath: 'assets/menu/image2.png',
-              ),
-              SizedBox(height: 30),
-              Text(
-                'Скоро в Malina',
-                style: TextStyle(
-                  fontFamily: 'SF Pro Display',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
-                  height: 22 / 17,
-                  color: MColor.black,
-                ),
-              ),
-              SizedBox(height: 8),
-              _buildListView()
-            ],
-          ),
+            ),
+            //
+            _buildListView(),
+          ],
         ),
       ),
     );
@@ -77,6 +83,7 @@ class MenuScreen extends StatelessWidget {
     return SizedBox(
       height: 86,
       child: ListView.builder(
+        padding: EdgeInsets.only(left: 20),
         scrollDirection: Axis.horizontal,
         itemCount: listText.length,
         itemBuilder: (context, index) => Container(

@@ -4,8 +4,8 @@ import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/ui_presentation/screens/components/card.dart';
 
-class BasketScreen extends StatelessWidget {
-  const BasketScreen({super.key});
+class Basket2Screen extends StatelessWidget {
+  const Basket2Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BasketScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  _buildButton(text: 'Доставка', hasBorder: false),
+                  _buildButton(text: 'Доставкаaaa', hasBorder: false),
                   const SizedBox(width: 10),
                   _buildButton(text: 'В заведении', hasBorder: true),
                 ],
