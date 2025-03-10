@@ -38,15 +38,17 @@ class Basket2Screen extends StatelessWidget {
           ProductsInitial() => const CircularProgressIndicator(),
           ProductsInitialError() => Center(child: Text(state.message)),
           ProductsEmpty() => Center(child: Text(state.emptyListText)),
-          ProductsLoaded() => CustomCard(
-              category: BasketCategory.hair,
-              productsModel: state.productsHair,
-              onTapDecrement: (int index) => context.read<ProductsBloc>().add(
-                  ProductsDecrementEvent(
-                      index: index, category: state.productsHair.category)),
-              onTapIncrement: (int index) => context.read<ProductsBloc>().add(
-                  ProductsDecrementEvent(
-                      index: index, category: state.productsHair.category)),
+          ProductsLoaded() => Column(
+              children: [
+                CustomCard(
+                  category: BasketCategory.hair,
+                  productsModel: state.productsHair,
+                ),
+                CustomCard(
+                  category: BasketCategory.shampoo,
+                  productsModel: state.productsShampoo,
+                ),
+              ],
             ),
         };
       },

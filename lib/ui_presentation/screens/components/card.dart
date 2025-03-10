@@ -10,14 +10,11 @@ import 'package:flutter_malina/ui_presentation/screens/components/text.dart';
 class CustomCard extends StatelessWidget {
   final BasketCategory category;
   final ProductsModel productsModel;
-  final Function(int index) onTapIncrement;
-  final Function(int index) onTapDecrement;
+
   const CustomCard({
     super.key,
     required this.productsModel,
     required this.category,
-    required this.onTapIncrement,
-    required this.onTapDecrement,
   });
 
   @override
