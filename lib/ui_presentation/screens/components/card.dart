@@ -1,26 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/constants/boxShadow.dart';
 import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/model/product.dart';
 import 'package:flutter_malina/ui_presentation/screens/components/text.dart';
 
-class CustomCard extends StatefulWidget {
+class CustomCard extends StatelessWidget {
   final BasketCategory category;
   final ProductsModel productsModel;
+  final Function(int index) onTapIncrement;
+  final Function(int index) onTapDecrement;
   const CustomCard({
     super.key,
     required this.productsModel,
     required this.category,
+    required this.onTapIncrement,
+    required this.onTapDecrement,
   });
 
-  @override
-  State<CustomCard> createState() => _CustomCardState();
-}
-
-class _CustomCardState extends State<CustomCard> {
-  int widgetOfProduct = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,37 +36,34 @@ class _CustomCardState extends State<CustomCard> {
         children: [
           _buildCompanyName(),
           SizedBox(height: 6.5),
+          Divider(
+            color: Color(0xFFEDEBEB),
+            height: 0,
+          ),
+          SizedBox(height: 12),
           SizedBox(
-            height: (126 * widget.productsModel.results.length).toDouble(),
+            height: (130 * productsModel.results.length).toDouble(),
             child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              itemCount: widget.productsModel.results.length,
+              itemCount: productsModel.results.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    Divider(
-                      color: Color(0xFFEDEBEB),
-                      height: 0,
-                    ),
-                    SizedBox(height: 12),
                     Row(
                       children: [
                         _buildPicture(
-                            imagePath:
-                                widget.productsModel.results[index].imagePath),
+                            imagePath: productsModel.results[index].imagePath),
                         SizedBox(width: 9),
-                        _buildNamePriceDescripCount(
-                            prod: widget.productsModel.results[index]),
+                        _buildNamePriceDescripCount(context,
+                            productsModel: productsModel, index: index),
                       ],
                     ),
+                    SizedBox(height: 20),
                   ],
                 );
               },
             ),
           ),
-          SizedBox(height: 16),
-          _buildDobavki(),
-          SizedBox(height: 20),
           _buildOrder(),
         ],
       ),
@@ -82,25 +78,28 @@ class _CustomCardState extends State<CustomCard> {
         borderRadius: BorderRadius.circular(12),
         color: MColor.malina,
       ),
-      child:
-          CustomText(text: 'Заказать', price: '111', textColor: MColor.white),
+      child: CustomText(
+          text: 'Заказать',
+          price: productsModel.allProductsSumm.toString(),
+          textColor: MColor.white),
     );
   }
 
-  Widget _buildNamePriceDescripCount({required Results prod}) {
+  Widget _buildNamePriceDescripCount(BuildContext context,
+      {required ProductsModel productsModel, required int index}) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: prod.name,
-            price: prod.price.toString(),
+            text: productsModel.results[index].name,
+            price: productsModel.results[index].price.toString(),
             textColor: MColor.black1,
           ),
           SizedBox(height: 7),
           Text(
-            prod.description,
+            productsModel.results[index].description,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -117,23 +116,22 @@ class _CustomCardState extends State<CustomCard> {
               _buildRemoveAndAddIcon(
                 icon: Icons.remove,
                 onTap: () {
-                  setState(() {
-                    if (prod.howMuch > 0) {
-                      prod.howMuch--;
-                    }
-                  });
+                  context.read<ProductsBloc>().add(ProductsDecrementEvent(
+                      index: index, category: productsModel.category));
                 },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14.5),
-                child: Text(prod.howMuch.toString()),
+                child: Text(productsModel.results[index].howMuch.toString()),
               ),
               _buildRemoveAndAddIcon(
                 icon: Icons.add,
                 onTap: () {
-                  setState(() {
-                    prod.howMuch++;
-                  });
+                  context.read<ProductsBloc>().add(ProductsIncrementEvent(
+                      index: index, category: productsModel.category));
+                  /*setState(() {
+                    productsModel.results[index].howMuch++;
+                  }); */
                 },
               ),
               Expanded(child: SizedBox()),
@@ -192,7 +190,7 @@ class _CustomCardState extends State<CustomCard> {
     return Row(
       children: [
         Text(
-          widget.productsModel.companyName,
+          productsModel.companyName,
           style: MTextStyle.sf_pro_display1(Color(0xFF5F5F5F)),
         ),
         SizedBox(width: 8),

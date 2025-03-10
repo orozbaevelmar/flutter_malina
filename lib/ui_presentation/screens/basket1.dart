@@ -41,6 +41,12 @@ class Basket1Screen extends StatelessWidget {
           ProductsLoaded() => CustomCard(
               category: BasketCategory.meal,
               productsModel: state.productsMeal,
+              onTapDecrement: (int index) => context.read<ProductsBloc>().add(
+                  ProductsDecrementEvent(
+                      index: index, category: state.productsMeal.category)),
+              onTapIncrement: (int index) => context.read<ProductsBloc>().add(
+                  ProductsDecrementEvent(
+                      index: index, category: state.productsMeal.category)),
             ),
         };
       },

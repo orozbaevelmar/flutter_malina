@@ -5,7 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_malina/bloc/navigation/bloc.dart';
-import 'package:flutter_malina/bloc/navigation/product/product_bloc.dart';
 import 'package:flutter_malina/constants/colors.dart';
 import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/ui_presentation/widgets/pop_up_menu.dart';
@@ -28,7 +27,7 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         color: MColor.white,
         boxShadow: [
           BoxShadow(
@@ -36,7 +35,7 @@ class _NavBarState extends State<NavBar> {
             blurRadius: 30,
             spreadRadius: 0,
             offset: Offset(15, 0),
-          )
+          ),
         ],
       ),
       child: BottomAppBar(
@@ -54,7 +53,7 @@ class _NavBarState extends State<NavBar> {
               print('ABCD ==${state.currentIndex}');
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   navItem(
                     'assets/nav_bar_icons/lenta.png',
@@ -88,13 +87,14 @@ class _NavBarState extends State<NavBar> {
                       //onTap: () {}, //=> widget.onTap(4),
                       title: 'Корзина',
                     ),
-                    onTap: () {
-                      //print(' AAA ==${state.currentIndex}');
-                      //widget.onTap(4);
-                      //print(' AAA ==${state.currentIndex == 5}');
-                      state.currentIndex == 4
-                          ? widget.onTap(4)
-                          : widget.onTap(5);
+                    onTapMeal: () {
+                      widget.onTap(4);
+                      Go.back(context);
+                      // print('CurrenINDEX222 === ${state.currentIndex}');
+                    },
+                    onTapProduct: () {
+                      //print('CurrenINDEX111 === ${state.currentIndex}');
+                      widget.onTap(5);
                       Go.back(context);
                     },
                   ),
@@ -136,7 +136,7 @@ class _NavBarState extends State<NavBar> {
       focusColor: Colors.transparent,
       onTap: onTap,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
               padding: isCenter
@@ -196,7 +196,7 @@ class _NavBarState extends State<NavBar> {
     bool isCenter = false,
   }) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
             padding: isCenter
@@ -363,9 +363,11 @@ class _NavBarState extends State<NavBar> {
   Widget _buildPopUpMenuButton({
     required BuildContext ctx,
     required Widget navItem,
-    required VoidCallback onTap,
+    required VoidCallback onTapMeal,
+    required VoidCallback onTapProduct,
   }) {
     return PopupMenuButton(
+      //offset: Offset(15, 100),
       offset: Offset(15, -140),
 
       padding: EdgeInsets.zero,
@@ -394,14 +396,14 @@ class _NavBarState extends State<NavBar> {
               _buildIcon(
                 path: 'assets/basket/Food.png',
                 text: 'Еда',
-                onTap: onTap,
+                onTap: onTapMeal,
                 basketCategory: BasketCategory.meal,
               ),
               SizedBox(height: 10),
               _buildIcon(
                 path: 'assets/basket/Cosmetic.png',
                 text: 'Товары',
-                onTap: onTap,
+                onTap: onTapProduct,
                 basketCategory: BasketCategory.products,
               ),
             ],

@@ -169,7 +169,7 @@ class _QRScannerScreenState extends State<QRScannerScreen>
                 color: Color(0xFF777777),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -28,6 +28,7 @@ class NavBloc extends Bloc<NavEvent, NavState> {
           break;
         case 4:
           emit(NavBasket1State());
+          break;
         case 5:
           emit(NavBasket2State());
           break;

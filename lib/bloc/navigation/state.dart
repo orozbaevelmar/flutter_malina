@@ -43,7 +43,7 @@ class NavBasket1State extends NavState {
 }
 
 class NavBasket2State extends NavState {
-  const NavBasket2State({super.currentIndex = 4});
+  const NavBasket2State({super.currentIndex = 5});
 
   @override
   List<Object> get props => [super.currentIndex];

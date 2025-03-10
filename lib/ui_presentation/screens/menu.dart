@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_malina/constants/colors.dart';
-import 'package:flutter_malina/constants/go.dart';
-import 'package:flutter_malina/constants/text_style_constant.dart';
+import 'package:flutter_malina/constants/constants.dart';
 import 'package:flutter_malina/ui_presentation/screens/qr_code.dart';
 import 'package:flutter_malina/ui_presentation/widgets/category.dart';
 
@@ -39,6 +35,7 @@ class MenuScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20),
                   _buildTextField(),
                   SizedBox(height: 14),
                   _buildQrCode(context),
@@ -73,6 +70,7 @@ class MenuScreen extends StatelessWidget {
             ),
             //
             _buildListView(),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -94,14 +92,16 @@ class MenuScreen extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10), color: listColor[index]),
-          child: Text(listText[index],
-              style: TextStyle(
-                fontFamily: 'SF Pro Display',
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                height: 18.2 / 14,
-                color: MColor.black,
-              )),
+          child: Text(
+            listText[index],
+            style: TextStyle(
+              fontFamily: 'SF Pro Display',
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              height: 18.2 / 14,
+              color: MColor.black,
+            ),
+          ),
         ),
       ),
     );
@@ -152,12 +152,7 @@ class MenuScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: MColor.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(0, 2),
-              blurRadius: 20,
-              color: Color(0xFF5F6773).withOpacity(0.1)),
-        ],
+        boxShadow: [MBoxShadow.boxShadow],
       ),
       child: TextField(
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),

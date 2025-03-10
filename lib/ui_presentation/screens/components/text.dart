@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_malina/constants/colors.dart';
 import 'package:flutter_malina/constants/constants.dart';
-import 'package:flutter_malina/model/product.dart';
 
 class CustomText extends StatelessWidget {
   final String text;
@@ -32,15 +30,16 @@ class CustomText extends StatelessWidget {
               ),
               WidgetSpan(child: SizedBox(width: 4.5)),
               TextSpan(
-                  text: 'C',
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Display',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    height: 19.2 / 16,
-                    decoration: TextDecoration.underline,
-                    color: textColor,
-                  )),
+                text: 'C',
+                style: TextStyle(
+                  fontFamily: 'SF Pro Display',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  height: 19.2 / 16,
+                  decoration: TextDecoration.underline,
+                  color: textColor,
+                ),
+              ),
             ],
           ),
         ),

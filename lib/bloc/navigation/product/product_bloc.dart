@@ -9,6 +9,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc() : super(ProductsInitial()) {
     on<ProductsLoadEvent>(_getProducts);
     on<ProductsDecrementEvent>(_decrementProduct);
+    on<ProductsIncrementEvent>(_incrementProduct);
     //on<ProductsFilterEvent>(_getFilter);
     // on<ProductsSearchEvent>(_getSearchedProducts);
     // on<ProductsLoadingEvent>(_loadingIndicator);
@@ -28,17 +29,31 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         event.isInitial, event.url, emit, 'В каталоге отсутствует продукт');
   } */
   _decrementProduct(ProductsDecrementEvent event, emit) async {
+    emit(ProductsInitial());
     switch (event.category) {
       case BasketCategory.meal:
-        productsMeal.results[event.index].howMuch--;
+        if (productsMeal.results[event.index].howMuch > 0) {
+          productsMeal.results[event.index].howMuch--;
+          productsMeal.allProductsSumm =
+              _summOfAllProductsInOneList(productsMeal.results);
+        }
         break;
 
       case BasketCategory.hair:
-        productsHair.results[event.index].howMuch--;
+        if (productsHair.results[event.index].howMuch > 0) {
+          productsHair.results[event.index].howMuch--;
+          productsHair.allProductsSumm =
+              _summOfAllProductsInOneList(productsHair.results);
+        }
+
         break;
 
       case BasketCategory.shampoo:
-        productsShampoo.results[event.index].howMuch--;
+        if (productsShampoo.results[event.index].howMuch > 0) {
+          productsShampoo.results[event.index].howMuch--;
+          productsShampoo.allProductsSumm =
+              _summOfAllProductsInOneList(productsShampoo.results);
+        }
         break;
     }
     emit(ProductsLoaded(
@@ -48,20 +63,38 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     ));
   }
 
-  _incrementProduct(ProductsDecrementEvent event, emit) async {
+  int _summOfAllProductsInOneList(List<Results> result) {
+    int sum = 0;
+    for (int i = 0; i < result.length; i++) {
+      sum += result[i].howMuch * result[i].price;
+    }
+
+    return sum;
+  }
+
+  _incrementProduct(ProductsIncrementEvent event, emit) async {
+    emit(ProductsInitial());
+
     switch (event.category) {
       case BasketCategory.meal:
         productsMeal.results[event.index].howMuch++;
+        productsMeal.allProductsSumm =
+            _summOfAllProductsInOneList(productsMeal.results);
         break;
 
       case BasketCategory.hair:
         productsHair.results[event.index].howMuch++;
+        productsHair.allProductsSumm =
+            _summOfAllProductsInOneList(productsHair.results);
         break;
 
       case BasketCategory.shampoo:
         productsShampoo.results[event.index].howMuch++;
+        productsShampoo.allProductsSumm =
+            _summOfAllProductsInOneList(productsShampoo.results);
         break;
     }
+
     emit(ProductsLoaded(
       productsMeal: productsMeal,
       productsHair: productsHair,
@@ -70,6 +103,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   _getProducts(ProductsLoadEvent event, emit) async {
+    emit(ProductsInitial());
     emit(ProductsLoaded(
       productsMeal: productsMeal,
       productsHair: productsHair,

@@ -18,7 +18,7 @@ class Basket2Screen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  _buildButton(text: 'Доставкаaaa', hasBorder: false),
+                  _buildButton(text: 'Доставкаaaa1', hasBorder: false),
                   const SizedBox(width: 10),
                   _buildButton(text: 'В заведении', hasBorder: true),
                 ],
@@ -39,8 +39,14 @@ class Basket2Screen extends StatelessWidget {
           ProductsInitialError() => Center(child: Text(state.message)),
           ProductsEmpty() => Center(child: Text(state.emptyListText)),
           ProductsLoaded() => CustomCard(
-              category: BasketCategory.meal,
-              productsModel: state.productsMeal,
+              category: BasketCategory.hair,
+              productsModel: state.productsHair,
+              onTapDecrement: (int index) => context.read<ProductsBloc>().add(
+                  ProductsDecrementEvent(
+                      index: index, category: state.productsHair.category)),
+              onTapIncrement: (int index) => context.read<ProductsBloc>().add(
+                  ProductsDecrementEvent(
+                      index: index, category: state.productsHair.category)),
             ),
         };
       },

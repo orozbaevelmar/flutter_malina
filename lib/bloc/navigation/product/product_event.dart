@@ -22,6 +22,20 @@ class ProductsDecrementEvent extends ProductsEvent {
     required this.index,
     required this.category,
   });
+  @override
+  List<Object> get props => [index, category];
+}
+
+class ProductsIncrementEvent extends ProductsEvent {
+  final int index;
+  final BasketCategory category;
+  const ProductsIncrementEvent({
+    required this.index,
+    required this.category,
+  });
+
+  @override
+  List<Object> get props => [index, category];
 }
 
 enum BasketCategory { meal, shampoo, hair }
