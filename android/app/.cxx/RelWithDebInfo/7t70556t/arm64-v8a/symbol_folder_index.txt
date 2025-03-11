@@ -1,0 +1,1 @@
+/Users/elmarbekorozbaev/MyProjects/flutter_malina/build/app/intermediates/cxx/RelWithDebInfo/7t70556t/obj/arm64-v8a

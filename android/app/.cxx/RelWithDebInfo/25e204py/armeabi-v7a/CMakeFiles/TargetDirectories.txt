@@ -1,0 +1,2 @@
+/Users/elmarbekorozbaev/MyProjects/flutter_malina/android/app/.cxx/RelWithDebInfo/25e204py/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/elmarbekorozbaev/MyProjects/flutter_malina/android/app/.cxx/RelWithDebInfo/25e204py/armeabi-v7a/CMakeFiles/edit_cache.dir
