@@ -13,4 +13,5 @@ class MColor {
   static const pink = Color(0xFFFFDEDD);
   static const soft_grey_blue = Color(0xFFF8F8F8);
   static const green = Color(0xFF00B866);
+  static const green2 = Color(0xFF00B866);
 }
